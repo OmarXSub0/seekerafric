@@ -74,7 +74,7 @@
     <h2>Contact Us</h2>
     <div class="contact-box">
         <p><strong>SeekerAfric</strong></p>
-        <p>Email: <a href="mailto:support@mesickisicki@gmail.com">support@seekerafric.online</a></p>
+        <p>Email: <a href="mailto:@mesickisicki@gmail.com">support@seekerafric.online</a></p>
         <p>Website: <a href="index.php">seekerafric.online</a></p>
     </div>
     <footer class="site-footer">
