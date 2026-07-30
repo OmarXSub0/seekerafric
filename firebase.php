@@ -1,8 +1,7 @@
 <?php
-
-define('FB_PROJECT', 'nearme-9be4e');
-define('FB_API_KEY', 'AIzaSyD-0J9xQZhvlnaZLEt_I7GQr9nbdxrXxCM');
-define('FB_BUCKET', 'nearme-9be4e.appspot.com');
+define('FB_PROJECT', getenv('FB_PROJECT') ?: 'YOUR_PROJECT_ID');
+define('FB_API_KEY',  getenv('FB_API_KEY')  ?: 'YOUR_WEB_API_KEY');
+define('FB_BUCKET',   getenv('FB_BUCKET')   ?: 'YOUR_PROJECT_ID.firebasestorage.app');
 
 define('FB_FS', 'https://firestore.googleapis.com/v1/projects/' . FB_PROJECT . '/databases/(default)/documents');
 define('FB_AUTH', 'https://identitytoolkit.googleapis.com/v1/accounts');
