@@ -55,7 +55,7 @@
         <h3>New Home</h3>
         <p>
             Finding a new place shouldn't cost you a fortune in agent fees. That's why we created the New Home
-            category—to cut out expensive middlemen. Current occupants can upload photos and location details of their
+            category—to cut out expensive middlemen. Current occupants can upload photos and location details of the
             property for potential tenants to view. Instead of paying agents a percentage of the annual rent, we charge
             a fixed listing fee of just 400 cedis—regardless of the monthly rent. This transparent, flat-rate approach
             puts money back where it belongs: in your pocket.
