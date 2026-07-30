@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: seekerafric
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    envVars:
+      - key: FB_PROJECT
+        sync: false
+      - key: FB_API_KEY
+        sync: false
+      - key: FB_BUCKET
+        sync: false
