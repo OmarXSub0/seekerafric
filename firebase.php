@@ -115,7 +115,7 @@ function get_categories(): array
                 ['name' => 'description', 'label' => 'Bio / Refrence', 'type' => 'textarea', 'placeholder' => 'e.g · Positivity & Enthusiasm. · Reporting sales to owner. · Marketing and advertising. · Punctual. ', 'required' => true],
             ],
             'Notice' => [
-                ['name' => 'notice', 'label' => '- You owe SeekerAfric 100 cedi only after you have been employed, To make payment click on Payment Button in the header above ',],
+                ['name' => 'notice', 'label' => '- Remember to delete your listing after you have been employed.',],
             ],
         ],
 
@@ -143,9 +143,7 @@ function get_categories(): array
             'Notice' => [
                 [
                     'name' => 'notice',
-                    'label' => '- As long as you intend to post a property here the only amount you agree to take as agent commission is 500 cedis(fixed) and out of that amount you owe SeekerAfric 100 cedi and 
-                if you are the owner of the property you are still required to send 100 cedi, Click on Payment button above to make payment only after property is given out.'
-                ],
+                    'label' => '- As long as you intend to post a property here the only amount you agree to take as agent commission is 400 cedis(FIXED).'                ],
             ],
         ],
     ];
