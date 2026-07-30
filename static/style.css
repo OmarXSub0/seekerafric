@@ -55,6 +55,10 @@ body {
     flex-direction: column;
 }
 
+html {
+    touch-action: pan-x pan-y;
+    -ms-touch-action: pan-x pan-y;
+}
 a {
     color: var(--red);
     text-decoration: none;
