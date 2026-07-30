@@ -134,7 +134,7 @@ $year = date('Y');
         <h2>13. Contact Us</h2>
         <div class="contact-box">
             <p><strong>SeekerAfric</strong></p>
-            <p>Email: <a href="mailto:support@mesickisicki@gmail.com">support@seekerafric.com</a></p>
+            <p>Email: <a href="mailto:@mesickisicki@gmail.com">support@seekerafric.com</a></p>
             <p>Website: <a href="index.php">seekerafric.com</a></p>
         </div>
     </div>
