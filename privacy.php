@@ -25,7 +25,7 @@ $year = date('Y');
                 <div class="header-tagline">Find anything across Africa</div>
             </div>
             <div class="account-bar">
-                <a href="index.php" class="btn-signin">← Back to Site</a>
+                <a href="index.php" class="btn-signin">Back to Site</a>
             </div>
         </div>
     </header>
@@ -44,7 +44,6 @@ $year = date('Y');
                 you fill in when setting up a category profile on your dashboard.</li>
             <li><strong>Listing data</strong> — product names, descriptions, prices, locations, and images you upload.
             </li>
-            <li><strong>Usage data</strong> — pages visited, search queries, browser type, device, and IP address.</li>
         </ul>
 
         <div class="highlight-box">
