@@ -32,7 +32,7 @@
         <h3>Delicacy</h3>
         <p>Our Delicacy category is a haven for food enthusiasts. From local delicacies to international flavors, this
             section allows sellers to showcase their culinary creations. Buyers can explore a wide range of food items,
-            from homemade treats to gourmet products, all in one convenient location.</p>
+            from homemade treats to gourmet products to refrigerated sauces, all in one convenient location.</p>
         <h3>Fashion</h3>
         <p>The Fashion category is a vibrant space for style enthusiasts. Sellers can display their clothing,
             accessories,
@@ -44,7 +44,7 @@
             tech-oriented audience, while buyers can find the latest devices and accessories.</p>
         <h3>Special Artisans</h3>
         <p>This category was created for individuals and small-scale manufacturers who produce everyday essentials such
-            as soap, paint, oil, honey, and refrigerated sauces. Whether you're a home-based producer or a growing local
+            as soap, paint, oil and honey farmers. Whether you're a home-based producer or a growing local
             business, Special Artisans gives you a platform to reach customers directly.</p>
         <h3>Employees</h3>
         <p>Designed with job seekers in mind, the Employees category allows candidates to post their
