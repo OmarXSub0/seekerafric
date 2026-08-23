@@ -79,13 +79,13 @@ function get_categories(): array
             'multi_image' => true,
             'max_images' => 2,
             'profile_fields' => [
-                ['name' => 'full_name', 'label' => 'Full Name', 'type' => 'text', 'required' => true],
+                ['name' => 'full_name', 'label' => 'Business Name', 'type' => 'text', 'required' => true],
                 ['name' => 'trade', 'label' => 'Trade / Skill', 'type' => 'select', 'required' => true, 'options' => ['Own Soap', 'Own Paint', 'Own Oil', 'Own Softdrinks', 'Honey Farmer', 'Artist', 'Local Furnitures']],
                 ['name' => 'location', 'label' => 'Location', 'type' => 'text', 'required' => true],
                 ['name' => 'phone', 'label' => 'Phone', 'placeholder' => 'country code first before number', 'type' => 'tel', 'required' => true],
             ],
             'listing_fields' => [
-                ['name' => 'name', 'label' => 'Service Title', 'type' => 'text', 'required' => true, 'placeholder' => 'e.g. Custom Furniture Making'],
+                ['name' => 'name', 'label' => 'Product Name', 'type' => 'text', 'required' => true, 'placeholder' => 'e.g. Custom Furniture'],
                 ['name' => 'price', 'label' => 'Starting Price (GH₵)', 'type' => 'number', 'required' => false],
                 ['name' => 'description', 'label' => 'Service Description', 'type' => 'textarea', 'required' => true],
             ],
