@@ -55,7 +55,7 @@ unset($item);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="description" content="SeekerAfric — Find anything across Africa.">
-    <title>SeekerAfric — Find Anything Across Africa</title>
+    <title>SeekerAfric — Find scarce and limited products and service across Africa</title>
     <link rel="stylesheet" href="static/style.css">
     <link rel="icon" type="image/svg+xml" href="static/seekerafric.svg">
     <link rel="icon" type="image/x-icon" href="static/seekerafric.ico">
@@ -69,7 +69,7 @@ unset($item);
         <div class="header-top">
             <div>
                 <a href="index.php" class="header-brand">Seeker<span>Afric</span></a>
-                <div class="header-tagline">Find anything across Africa</div>
+                <div class="header-tagline">Find scarce and limited products and service across Africa</div>
             </div>
             <div class="account-bar">
                 <?php if ($is_logged_in): ?>
