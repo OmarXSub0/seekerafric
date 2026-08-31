@@ -54,7 +54,7 @@ unset($item);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="SeekerAfric — Find anything across Africa.">
+    <meta name="description" content="SeekerAfric — Africa's marketplace for scarce resource in Delicacy, Fashion, Electronics, Artisans, Jobs and Homes. Find and connect with service providers and sellers across Africa.">
     <title>SeekerAfric — Find scarce and limited products and service across Africa</title>
     <link rel="stylesheet" href="static/style.css">
     <link rel="icon" type="image/svg+xml" href="static/seekerafric.svg">
