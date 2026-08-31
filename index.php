@@ -12,15 +12,11 @@ $search_query = htmlspecialchars(strip_tags(trim($search_query)));
 $cat_info = $categories[$active_cat];
 $items = fs_search($active_cat, $search_query);
 
-// Collect unique seller IDs
 $seller_ids = array_unique(array_filter(array_column($items, 'seller_id')));
-// Fetch all seller profiles at once from seller_profiles collection
 $sellers = [];
 foreach ($seller_ids as $sid) {
-    // try category-specific profile first
     $profile = fs_get('seller_profiles', $sid . '_' . $active_cat) ?? [];
 
-    // fallback to flat sellers document
     if (empty($profile)) {
         $profile = fs_get('sellers', $sid) ?? [];
     }
@@ -28,20 +24,16 @@ foreach ($seller_ids as $sid) {
     $sellers[$sid] = $profile;
 }
 
-// Merge seller profile into each listing
 foreach ($items as &$item) {
     $sid = $item['seller_id'] ?? '';
     $seller = $sellers[$sid] ?? [];
 
-    // merge all seller fields into the listing
-    // (profile fields are saved flat, no prefix)
     foreach ($seller as $key => $val) {
         if (empty($item[$key]) && !empty($val)) {
             $item[$key] = $val;
         }
     }
 
-    // always pull phone from seller profile if listing doesn't have it
     if (empty($item['phone'])) {
         $item['phone'] = $seller[$active_cat . '_phone'] ?? '';
     }
@@ -343,7 +335,6 @@ unset($item);
 
             document.getElementById('modalTitle').textContent = d.name || 'Listing';
 
-            // Price (use salary for employees)
             const priceEl = document.getElementById('modalPrice');
             const price = d.category === 'employees' ? d.salary : d.price;
             priceEl.textContent = price || '';
