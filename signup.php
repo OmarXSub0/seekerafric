@@ -209,7 +209,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'googl
 
     <form id="googleForm" method="POST" action="signup.php" style="display:none;">
         <input type="hidden" name="action" value="google_signup">
-        <input type="hidden" name="id_token" id="googleIdToken">
+        <input type="hidden" name="uid"   id="googleUid">
+        <input type="hidden" name="email" id="googleEmail">
+        <input type="hidden" name="name"  id="googleName">
+        <input type="hidden" name="photo" id="googlePhoto">
     </form>
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
