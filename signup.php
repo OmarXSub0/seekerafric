@@ -8,40 +8,57 @@ if (isset($_SESSION['seller_id'])) {
 }
 
 $error = '';
+$form_data = ['email' => ''];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'email_signup') {
     $email = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
     $confirm = $_POST['confirm'] ?? '';
+    $form_data['email'] = $email;
 
     if (!$email || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error = 'Please enter a valid email address.';
-    } elseif (strlen($password) < 6) {
-        $error = 'Password must be at least 6 characters.';
+    } elseif (strlen($password) < 8) {
+        $error = 'Password must be at least 8 characters.';
+    } elseif (!preg_match('/[A-Z]/', $password)) {
+        $error = 'Password must contain at least one uppercase letter.';
+    } elseif (!preg_match('/[a-z]/', $password)) {
+        $error = 'Password must contain at least one lowercase letter.';
+    } elseif (!preg_match('/[0-9]/', $password)) {
+        $error = 'Password must contain at least one number.';
     } elseif ($password !== $confirm) {
         $error = 'Passwords do not match.';
     } else {
+
         $auth = fb_signup($email, $password);
 
         if (isset($auth['error'])) {
             $msg = $auth['error']['message'] ?? '';
             $error = match (true) {
-                str_contains($msg, 'EMAIL_EXISTS') => 'This email is already registered. Please log in.',
-                str_contains($msg, 'WEAK_PASSWORD') => 'Password is too weak. Please use at least 6 characters.',
+                str_contains($msg, 'EMAIL_EXISTS') => 'This email is already registered. <a href="login.php">Log in here</a>.',
+                str_contains($msg, 'WEAK_PASSWORD') => 'Password is too weak. Please use at least 8 characters with uppercase, lowercase, and numbers.',
                 str_contains($msg, 'INVALID_EMAIL') => 'Please enter a valid email address.',
                 default => 'Signup failed. Please try again.',
             };
         } else {
             $uid = $auth['localId'];
+            
             fs_set('sellers', $uid, [
                 'uid' => $uid,
                 'email' => $email,
+                'display_name' => explode('@', $email)[0],
                 'created_at' => date('c'),
+                'auth_provider' => 'email',
+                'email_verified' => $auth['emailVerified'] ?? false,
             ]);
 
+            // Set session
             $_SESSION['seller_id'] = $uid;
             $_SESSION['email'] = $email;
             $_SESSION['display_name'] = explode('@', $email)[0];
+            $_SESSION['logged_in_at'] = time();
+
+            session_regenerate_id(true);
 
             header('Location: dashboard.php');
             exit;
@@ -50,29 +67,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'email
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'google_signup') {
-    $uid   = $_POST['uid']   ?? '';
+    $id_token = $_POST['id_token'] ?? '';
+    $uid = $_POST['uid'] ?? '';
     $email = $_POST['email'] ?? '';
-    $name  = $_POST['name']  ?? '';
+    $name = $_POST['name'] ?? '';
     $photo = $_POST['photo'] ?? '';
 
-    if (!$uid || !$email) {
+    if (!$id_token) {
+        $error = 'Google sign-in verification failed. Please try again.';
+    } elseif (!$uid || !$email) {
         $error = 'Google sign-in failed. Please try again.';
     } else {
+        //Verify token with Firebase
+         $verified = verify_google_token($id_token);
+         if (!$verified) { $error = 'Invalid token.'; }
+        
         $existing = fs_get('sellers', $uid);
         if (!$existing) {
             fs_set('sellers', $uid, [
-                'uid'           => $uid,
-                'email'         => $email,
-                'display_name'  => $name,
-                'photo_url'     => $photo,
-                'created_at'    => date('c'),
+                'uid' => $uid,
+                'email' => $email,
+                'display_name' => $name ?: explode('@', $email)[0],
+                'photo_url' => $photo ?: '',
+                'created_at' => date('c'),
                 'auth_provider' => 'google',
             ]);
         }
 
-        $_SESSION['seller_id']    = $uid;
-        $_SESSION['email']        = $email;
-        $_SESSION['display_name'] = $name;
+        $_SESSION['seller_id'] = $uid;
+        $_SESSION['email'] = $email;
+        $_SESSION['display_name'] = $name ?: explode('@', $email)[0];
+        $_SESSION['logged_in_at'] = time();
+        
+        session_regenerate_id(true);
 
         header('Location: dashboard.php');
         exit;
@@ -209,9 +236,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'googl
 
     <form id="googleForm" method="POST" action="signup.php" style="display:none;">
         <input type="hidden" name="action" value="google_signup">
-        <input type="hidden" name="uid"   id="googleUid">
+        <input type="hidden" name="id_token" id="googleIdToken">
+        <input type="hidden" name="uid" id="googleUid">
         <input type="hidden" name="email" id="googleEmail">
-        <input type="hidden" name="name"  id="googleName">
+        <input type="hidden" name="name" id="googleName">
         <input type="hidden" name="photo" id="googlePhoto">
     </form>
     <script type="module">
@@ -233,21 +261,113 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'googl
         const auth = getAuth(app);
         const provider = new GoogleAuthProvider();
 
-       window.signInWithGoogle = async function () {
-    try {
-        const result  = await signInWithPopup(auth, provider);
-        const user    = result.user;
-        const idToken = await user.getIdToken();
+        window.signInWithGoogle = async function() {
+            const btn = document.getElementById('googleBtn');
+            const btnText = document.getElementById('googleBtnText');
+            btn.disabled = true;
+            btnText.textContent = 'Connecting...';
 
-        document.getElementById('googleIdToken').value = idToken;
-        document.getElementById('googleForm').submit();
+            try {
+                const result = await signInWithPopup(auth, provider);
+                const user = result.user;
+                const idToken = await user.getIdToken();
 
-    } catch (err) {
-        console.error('Google sign-in error:', err);
-        if (err.code === 'auth/popup-closed-by-user') return;
-        alert('Google sign-in failed: ' + err.message);
-    }
-};
+                document.getElementById('googleIdToken').value = idToken;
+                document.getElementById('googleUid').value = user.uid;
+                document.getElementById('googleEmail').value = user.email;
+                document.getElementById('googleName').value = user.displayName || '';
+                document.getElementById('googlePhoto').value = user.photoURL || '';
+                
+                document.getElementById('googleForm').submit();
+            } catch (err) {
+                console.error('Google sign-in error:', err);
+                if (err.code === 'auth/popup-closed-by-user') {
+                    // User closed popup, do nothing
+                } else if (err.code === 'auth/cancelled-popup-request') {
+                    // Ignore
+                } else {
+                    alert('Google sign-in failed: ' + err.message);
+                }
+                btn.disabled = false;
+                btnText.textContent = 'Continue with Google';
+            }
+        };
+
+        // Password strength checker
+        const passwordInput = document.getElementById('password');
+        const confirmInput = document.getElementById('confirm');
+        const strengthBar = document.getElementById('passwordStrength');
+        const passwordHint = document.getElementById('passwordHint');
+        const matchHint = document.getElementById('matchHint');
+
+        passwordInput.addEventListener('input', function() {
+            const val = this.value;
+            let strength = 0;
+            let hint = '';
+
+            if (val.length >= 8) strength++;
+            if (/[A-Z]/.test(val)) strength++;
+            if (/[a-z]/.test(val)) strength++;
+            if (/[0-9]/.test(val)) strength++;
+            if (/[^A-Za-z0-9]/.test(val)) strength++;
+
+            strengthBar.className = 'password-strength';
+            if (val.length === 0) {
+                strengthBar.style.width = '0';
+                hint = 'Use 8+ chars with uppercase, lowercase, and numbers';
+            } else if (strength <= 2) {
+                strengthBar.classList.add('weak');
+                hint = 'Weak - add uppercase, numbers, or special characters';
+            } else if (strength <= 3) {
+                strengthBar.classList.add('medium');
+                hint = 'Medium - add more variety';
+            } else {
+                strengthBar.classList.add('strong');
+                hint = 'Strong password!';
+            }
+            passwordHint.textContent = hint;
+            checkMatch();
+        });
+
+        confirmInput.addEventListener('input', checkMatch);
+
+        function checkMatch() {
+            const pass = passwordInput.value;
+            const confirm = confirmInput.value;
+            if (confirm.length === 0) {
+                matchHint.textContent = '';
+            } else if (pass === confirm) {
+                matchHint.textContent = '✓ Passwords match';
+                matchHint.style.color = '#27ae60';
+            } else {
+                matchHint.textContent = '✗ Passwords do not match';
+                matchHint.style.color = '#e94560';
+            }
+        }
+
+        // Form validation
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            const terms = document.getElementById('terms');
+            if (!terms.checked) {
+                e.preventDefault();
+                alert('Please agree to the Terms of Service and Privacy Policy.');
+                return;
+            }
+
+            const pass = document.getElementById('password').value;
+            const confirm = document.getElementById('confirm').value;
+            if (pass !== confirm) {
+                e.preventDefault();
+                alert('Passwords do not match.');
+                return;
+            }
+
+            // Disable submit button to prevent double submission
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span> Creating...';
+        });
+
     </script>
 
 </body>
