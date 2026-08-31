@@ -262,21 +262,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'googl
         window.signInWithGoogle = async function () {
             try {
                 const result = await signInWithPopup(auth, provider);
-                const user = result.user;
+                const user   = result.user;
 
-                // Get the ID token to send to PHP
-                const idToken = await user.getIdToken();
-
-                // Submit to PHP for session creation
-                document.getElementById('googleIdToken').value = idToken;
+                document.getElementById('googleUid').value   = user.uid;
+                document.getElementById('googleEmail').value = user.email;
+                document.getElementById('googleName').value  = user.displayName || '';
+                document.getElementById('googlePhoto').value = user.photoURL    || '';
                 document.getElementById('googleForm').submit();
 
             } catch (err) {
                 console.error('Google sign-in error:', err);
                 if (err.code === 'auth/popup-closed-by-user') return;
                 alert('Google sign-in failed: ' + err.message);
-            }
-        };
+            };
     </script>
 
 </body>
