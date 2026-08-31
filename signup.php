@@ -78,16 +78,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'googl
 
         $result = json_decode($res, true);
 
-
-        // TEMPORARY DEBUG — remove after fixing
-        echo '<pre style="background:#fff;color:#000;padding:20px;position:fixed;
-              top:0;left:0;right:0;z-index:9999;overflow:auto;max-height:60vh;">';
-        echo "HTTP CODE: $code\n";
-        echo "REQUEST URI: $request_uri\n";
-        echo "RESPONSE: " . json_encode($result, JSON_PRETTY_PRINT);
-        echo '</pre>';
-        exit;
-
         if ($code !== 200 || isset($result['error'])) {
             $error = 'Google sign-in failed. Please try again.';
         } else {
@@ -218,7 +208,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'googl
                 <div class="form-group">
                     <label for="email">Email Address <span class="req">*</span></label>
                     <input type="email" id="email" name="email" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>"
-                        placeholder="exampleyou@yahoo.com" required autocomplete="email">
+                        placeholder="eg. yourmail@yahoo.com" required autocomplete="email">
                 </div>
                 <div class="form-group">
                     <label for="password">Password <span class="req">*</span></label>
