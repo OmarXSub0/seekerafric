@@ -50,61 +50,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'email
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'google_signup') {
-    $id_token = $_POST['id_token'] ?? '';
-    if (!$id_token) {
-        $error = 'Google sign-in failed. No token received.';
+    $uid   = $_POST['uid']   ?? '';
+    $email = $_POST['email'] ?? '';
+    $name  = $_POST['name']  ?? '';
+    $photo = $_POST['photo'] ?? '';
+
+    if (!$uid || !$email) {
+        $error = 'Google sign-in failed. Please try again.';
     } else {
-        $request_uri = (isset($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'];
-
-        $url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithIdp?key=' . FB_API_KEY;
-        $payload = [
-            'requestUri' => $request_uri,
-            'postBody' => 'id_token=' . $id_token . '&providerId=google.com',
-            'returnSecureToken' => true,
-            'returnIdpCredential' => true,
-        ];
-
-        $ch = curl_init($url);
-        curl_setopt_array($ch, [
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_POST => true,
-            CURLOPT_POSTFIELDS => json_encode($payload),
-            CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
-            CURLOPT_TIMEOUT => 10,
-        ]);
-        $res = curl_exec($ch);
-        $code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
-
-        $result = json_decode($res, true);
-
-        if ($code !== 200 || isset($result['error'])) {
-            $error = 'Google sign-in failed. Please try again.';
-        } else {
-            $uid = $result['localId'];
-            $email = $result['email'] ?? '';
-            $name = $result['displayName'] ?? explode('@', $email)[0];
-            $photo = $result['photoUrl'] ?? '';
-
-            $existing = fs_get('sellers', $uid);
-            if (!$existing) {
-                fs_set('sellers', $uid, [
-                    'uid' => $uid,
-                    'email' => $email,
-                    'display_name' => $name,
-                    'photo_url' => $photo,
-                    'created_at' => date('c'),
-                    'auth_provider' => 'google',
-                ]);
-            }
-
-            $_SESSION['seller_id'] = $uid;
-            $_SESSION['email'] = $email;
-            $_SESSION['display_name'] = $name;
-
-            header('Location: dashboard.php');
-            exit;
+        $existing = fs_get('sellers', $uid);
+        if (!$existing) {
+            fs_set('sellers', $uid, [
+                'uid'           => $uid,
+                'email'         => $email,
+                'display_name'  => $name,
+                'photo_url'     => $photo,
+                'created_at'    => date('c'),
+                'auth_provider' => 'google',
+            ]);
         }
+
+        $_SESSION['seller_id']    = $uid;
+        $_SESSION['email']        = $email;
+        $_SESSION['display_name'] = $name;
+
+        header('Location: dashboard.php');
+        exit;
     }
 }
 ?>
