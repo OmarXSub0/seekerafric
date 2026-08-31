@@ -120,23 +120,144 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'googl
     <link rel="apple-touch-icon" href="static/seekerafric_64.png">
 
     <style>
+         /* Enhanced styles */
+        .auth-wrap {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        .auth-box {
+            max-width: 420px;
+            width: 100%;
+            background: white;
+            padding: 40px 32px;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        }
+        .auth-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 4px;
+            color: #1a1a2e;
+        }
+        .auth-logo span {
+            color: #e94560;
+        }
+        .auth-tagline {
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 24px;
+        }
+        .auth-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #1a1a2e;
+        }
+        .alert {
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            font-size: 0.9rem;
+        }
+        .alert-error {
+            background: #fee;
+            color: #c0392b;
+            border: 1px solid #fcc;
+        }
+        .alert-success {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #c8e6c9;
+        }
+        .form-group {
+            margin-bottom: 18px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 6px;
+            color: #333;
+        }
+        .form-group .req {
+            color: #e94560;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+            box-sizing: border-box;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: #e94560;
+        }
+        .form-group .password-hint {
+            font-size: 0.8rem;
+            color: #888;
+            margin-top: 4px;
+        }
+        .password-strength {
+            height: 4px;
+            background: #e0e0e0;
+            border-radius: 2px;
+            margin-top: 6px;
+            transition: background 0.3s;
+        }
+        .password-strength.weak { background: #e94560; width: 33%; }
+        .password-strength.medium { background: #f39c12; width: 66%; }
+        .password-strength.strong { background: #27ae60; width: 100%; }
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        .btn-primary {
+            background: #e94560;
+            color: white;
+            width: 100%;
+        }
+        .btn-primary:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(233, 69, 96, 0.3);
+        }
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
         .divider {
             display: flex;
             align-items: center;
             gap: 12px;
             margin: 22px 0;
-            color: var(--g4);
-            font-size: .82rem;
+            color: #999;
+            font-size: 0.82rem;
         }
-
         .divider::before,
         .divider::after {
             content: '';
             flex: 1;
             height: 1px;
-            background: var(--border);
+            background: #e0e0e0;
         }
-
         .google-btn {
             width: 100%;
             display: flex;
@@ -144,31 +265,89 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'googl
             justify-content: center;
             gap: 10px;
             padding: 11px 20px;
-            border: 2px solid var(--border);
-            border-radius: var(--r-sm);
-            background: var(--white);
-            color: var(--dark-3);
-            font-size: .93rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            background: white;
+            color: #333;
+            font-size: 0.93rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all .2s;
+            transition: all 0.2s;
             font-family: inherit;
-            margin-bottom: 4px;
         }
-
         .google-btn:hover {
             border-color: #4285f4;
-            box-shadow: 0 2px 8px rgba(66, 133, 244, .2);
+            box-shadow: 0 2px 8px rgba(66, 133, 244, 0.2);
+            transform: translateY(-2px);
         }
-
-        .google-btn svg {
+        .google-btn:active {
+            transform: translateY(0);
+        }
+        .auth-links {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        .auth-links a {
+            color: #e94560;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .auth-links a:hover {
+            text-decoration: underline;
+        }
+        .site-footer {
+            margin-top: 30px;
+            text-align: center;
+            color: #888;
+            font-size: 0.85rem;
+        }
+        .site-footer a {
+            color: #888;
+            text-decoration: none;
+        }
+        .site-footer a:hover {
+            color: #e94560;
+        }
+        .terms-check {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: #666;
+            margin: 16px 0;
+        }
+        .terms-check input[type="checkbox"] {
+            margin-top: 2px;
+            width: 16px;
+            height: 16px;
             flex-shrink: 0;
         }
-
-        #g_id_onload {
-            display: none;
+        .terms-check a {
+            color: #e94560;
+            text-decoration: none;
         }
-    </style>
+        .terms-check a:hover {
+            text-decoration: underline;
+        }
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        @media (max-width: 480px) {
+            .auth-box {
+                padding: 24px 16px;
+            }
+        }
 </head>
 
 <body>
@@ -203,21 +382,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'googl
             <!-- Email/Password Form -->
             <form method="POST" action="signup.php">
                 <input type="hidden" name="action" value="email_signup">
-                <div class="form-group">
+<div class="form-group">
                     <label for="email">Email Address <span class="req">*</span></label>
-                    <input type="email" id="email" name="email" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>"
-                        placeholder=" yourmail@hotmail.com" required autocomplete="email">
+                    <input type="email" id="email" name="email" 
+                           value="<?= htmlspecialchars($form_data['email']) ?>"
+                           placeholder="yourmail@example.com" required autocomplete="email">
                 </div>
+                
                 <div class="form-group">
                     <label for="password">Password <span class="req">*</span></label>
-                    <input type="password" id="password" name="password" placeholder="Minimum 6 characters" required
-                        minlength="6">
+                    <input type="password" id="password" name="password" 
+                           placeholder="Minimum 8 characters" required minlength="8"
+                           autocomplete="new-password">
+                    <div class="password-strength" id="passwordStrength"></div>
+                    <div class="password-hint">
+                        <span id="passwordHint">Use 8+ chars with uppercase, lowercase, and numbers</span>
+                    </div>
                 </div>
+                
                 <div class="form-group">
                     <label for="confirm">Confirm Password <span class="req">*</span></label>
-                    <input type="password" id="confirm" name="confirm" placeholder="Repeat your password" required
-                        minlength="6">
+                    <input type="password" id="confirm" name="confirm" 
+                           placeholder="Repeat your password" required minlength="8"
+                           autocomplete="new-password">
+                    <div class="password-hint" id="matchHint"></div>
                 </div>
+
+                <div class="terms-check">
+                    <input type="checkbox" id="terms" name="terms" required>
+                    <label for="terms">I agree to the <a href="terms.php" target="_blank">Terms of Service</a> and <a href="privacy.php" target="_blank">Privacy Policy</a></label>
+                </div>
+
                 <button type="submit" class="btn btn-primary btn-block">
                     Create Account &rarr;
                 </button>
