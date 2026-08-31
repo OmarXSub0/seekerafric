@@ -208,7 +208,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'googl
                 <div class="form-group">
                     <label for="email">Email Address <span class="req">*</span></label>
                     <input type="email" id="email" name="email" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>"
-                        placeholder="eg. yourmail@yahoo.com" required autocomplete="email">
+                        placeholder=" yourmail@hotmail.com" required autocomplete="email">
                 </div>
                 <div class="form-group">
                     <label for="password">Password <span class="req">*</span></label>
@@ -273,7 +273,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'googl
             } catch (err) {
                 console.error('Google sign-in error:', err);
                 if (err.code === 'auth/popup-closed-by-user') return;
-                alert('Google sign-in failed: ' + err.message);
+                alert('Google sign-in failed: ' + err.message);}
             };
     </script>
 
