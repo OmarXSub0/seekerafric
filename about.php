@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="SeekerAfric — Find anything across Africa.">
-    <title>SeekerAfric — Find Anything Across Africa</title>
+    <meta name="description" content="SeekerAfric — Find scarce and limited products and service across Africa.">
+    <title>SeekerAfric — Find scarce and limited products and service across Africa</title>
     <link rel="stylesheet" href="static/style.css">
     <link rel="icon" type="image/svg+xml" href="static/seekerafric.svg">
     <link rel="icon" type="image/x-icon" href="static/seekerafric.ico">
@@ -19,7 +19,7 @@
         <div class="header-top">
             <div>
                 <a href="index.php" class="header-brand">Seeker<span>Afric</span></a>
-                <div class="header-tagline">Find anything across Africa</div>
+                <div class="header-tagline">Find scarce and limited products and service across Africa</div>
             </div>
         </div>
     </header>
@@ -78,7 +78,7 @@
         <p>Website: <a href="index.php">seekerafric.online</a></p>
     </div>
     <footer class="site-footer">
-        &copy; <?= date('Y') ?> SeekerAfric &mdash; Find anything across Africa.
+        &copy; <?= date('Y') ?> SeekerAfric &mdash; Find scarce and limited products and service across Africa.
         &nbsp;|&nbsp; <a href="signup.php">Sell on SeekerAfric</a>
         &nbsp;|&nbsp; <a href=" https://emperorgarage.onrender.com"
             style="color: darkgreen; text-decoration: none;">Check Out Our Garage </a>
