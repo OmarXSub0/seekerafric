@@ -233,22 +233,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'googl
         const auth = getAuth(app);
         const provider = new GoogleAuthProvider();
 
-        window.signInWithGoogle = async function () {
-            try {
-                const result = await signInWithPopup(auth, provider);
-                const user   = result.user;
+       window.signInWithGoogle = async function () {
+    try {
+        const result  = await signInWithPopup(auth, provider);
+        const user    = result.user;
+        const idToken = await user.getIdToken();
 
-                document.getElementById('googleUid').value   = user.uid;
-                document.getElementById('googleEmail').value = user.email;
-                document.getElementById('googleName').value  = user.displayName || '';
-                document.getElementById('googlePhoto').value = user.photoURL    || '';
-                document.getElementById('googleForm').submit();
+        document.getElementById('googleIdToken').value = idToken;
+        document.getElementById('googleForm').submit();
 
-            } catch (err) {
-                console.error('Google sign-in error:', err);
-                if (err.code === 'auth/popup-closed-by-user') return;
-                alert('Google sign-in failed: ' + err.message);}
-            };
+    } catch (err) {
+        console.error('Google sign-in error:', err);
+        if (err.code === 'auth/popup-closed-by-user') return;
+        alert('Google sign-in failed: ' + err.message);
+    }
+};
     </script>
 
 </body>
