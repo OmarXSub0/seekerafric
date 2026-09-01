@@ -419,7 +419,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'googl
 
                 <div class="terms-check">
                     <input type="checkbox" id="terms" name="terms" required>
-                    <label for="terms">I agree to the <a href="terms.php" target="_blank">Terms of Service</a> and <a href="privacy.php" target="_blank">Privacy Policy</a></label>
+                    <label for="terms">I agree to the Terms of Service and <a href="privacy.php" target="_blank">Privacy Policy</a></label>
                 </div>
 
                 <button type="submit" class="btn btn-primary" id="submitBtn">
