@@ -395,7 +395,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'googl
                     <label for="email">Email Address <span class="req">*</span></label>
                     <input type="email" id="email" name="email" 
                            value="<?= htmlspecialchars($form_data['email']) ?>"
-                           placeholder="yourmail@example.com" required autocomplete="email">
+                           placeholder="yourmail@hotmail.com" required autocomplete="email">
                 </div>
                 
                 <div class="form-group">
@@ -435,7 +435,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'googl
     </div>
 
     <footer class="site-footer">
-        &copy; <?= date('Y') ?> SeekerAfric &nbsp;|&nbsp; <a href="privacy.php">Privacy Policy</a>
+        &copy; <?= date('Y') ?> SeekerAfric
     </footer>
 
     <!-- Google Form -->
