@@ -147,6 +147,17 @@ $display_name = $seller['display_name'] ?? explode('@', $email)[0];
         </div>
     </header>
 
+  <?php if ($success): ?>
+      <div class="alert alert-success">
+       <?= htmlspecialchars($success) ?>
+      </div>
+  <?php endif; ?>
+  <?php if ($error): ?>
+      <div class="alert alert-error">
+          <?= htmlspecialchars($error) ?>
+      </div>
+  <?php endif; ?>
+
     <div class="dash-page">
 
         <div class="section-title">My Categories</div>
@@ -228,17 +239,6 @@ $display_name = $seller['display_name'] ?? explode('@', $email)[0];
                             <?= $is_active ? 'Update Profile' : 'Activate' ?>
                         </button>
                     </form>
-
-                    <?php if ($success): ?>
-                        <div class="alert alert-success">
-                            <?= htmlspecialchars($success) ?>
-                        </div>
-                    <?php endif; ?>
-                    <?php if ($error): ?>
-                        <div class="alert alert-error">
-                            <?= htmlspecialchars($error) ?>
-                        </div>
-                    <?php endif; ?>
 
                     <?php if ($is_active): ?>
                         <div class="add-listing-section">
