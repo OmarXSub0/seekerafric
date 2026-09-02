@@ -370,7 +370,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'googl
                 <div class="alert alert-error"><?= htmlspecialchars($error) ?></div>
             <?php endif; ?>
 
-            <!-- Google Button -->
             <button class="google-btn" id="googleBtn" onclick="signInWithGoogle()">
                 <svg width="18" height="18" viewBox="0 0 18 18">
                     <path fill="#4285F4"
@@ -387,7 +386,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'googl
 
             <div class="divider">or sign up with email</div>
 
-            <!-- Email/Password Form -->
             <form method="POST" action="signup.php" id="signupForm" novalidate>
                 <input type="hidden" name="action" value="email_signup">
                 
@@ -438,7 +436,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'googl
         &copy; <?= date('Y') ?> SeekerAfric
     </footer>
 
-    <!-- Google Form -->
     <form id="googleForm" method="POST" action="signup.php" style="display:none;">
         <input type="hidden" name="action" value="google_signup">
         <input type="hidden" name="id_token" id="googleIdToken">
@@ -489,9 +486,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'googl
             } catch (err) {
                 console.error('Google sign-in error:', err);
                 if (err.code === 'auth/popup-closed-by-user') {
-                    // User closed popup, do nothing
                 } else if (err.code === 'auth/cancelled-popup-request') {
-                    // Ignore
                 } else {
                     alert('Google sign-in failed: ' + err.message);
                 }
@@ -500,7 +495,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'googl
             }
         };
 
-        // Password strength checker
         const passwordInput = document.getElementById('password');
         const confirmInput = document.getElementById('confirm');
         const strengthBar = document.getElementById('passwordStrength');
@@ -553,7 +547,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'googl
             }
         }
 
-        // Form validation
         const signupForm = document.getElementById('signupForm');
         signupForm.addEventListener('submit', function(e) {
             const terms = document.getElementById('terms');
@@ -571,7 +564,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'googl
                 return;
             }
 
-            // Disable submit button to prevent double submission
             const btn = document.getElementById('submitBtn');
             btn.disabled = true;
             btn.innerHTML = '<span class="spinner"></span> Creating...';
