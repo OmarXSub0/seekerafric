@@ -1,5 +1,5 @@
 <?php
-require_once 'firebase.php';
+require_once 'mydb.php';
 session_start();
 
 $categories = get_categories();
