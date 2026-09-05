@@ -76,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'googl
     } elseif (!$uid || !$email) {
         $error = 'Google sign-in failed. Please try again.';
     } else {
-        // Verify token with Firebase
+        // Verify token with database
         // $verified = verify_google_token($id_token);
         // if (!$verified) { $error = 'Invalid token.'; }
         
@@ -393,7 +393,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'googl
                     <label for="email">Email Address <span class="req">*</span></label>
                     <input type="email" id="email" name="email" 
                            value="<?= htmlspecialchars($form_data['email']) ?>"
-                           placeholder="yourmail@hotmail.com" required autocomplete="email">
+                           placeholder="" required autocomplete="email">
                 </div>
                 
                 <div class="form-group">
