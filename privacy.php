@@ -1,5 +1,5 @@
 <?php
-require_once 'firebase.php';
+require_once 'mydb.php';
 $year = date('Y');
 ?>
 <!DOCTYPE html>
